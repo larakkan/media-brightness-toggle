@@ -8,7 +8,8 @@ CheckFortniteRunning()
 	if (toggleMode && ProcessExist("FortniteClient-Win64-Shipping.exe"))
 	{
 		toggleMode := false
-		ShowTogglePopup("3B9EFF", "🔊", "Volume Mode", "Fortnite detected - toggle disabled")
+		SoundPlay("*48")
+		ShowTogglePopup("ff3b3b", "⚠️", "Fortnite Detected", "Toggle has been disabled. Please turn off AHK for maximum safety.", true)
 	}
 }
 
@@ -17,12 +18,12 @@ Media_Play_Pause::
     global toggleMode := !toggleMode
 
 	if (toggleMode)
-		ShowTogglePopup("FFB020", "🔆", "Brightness Mode", "Volume keys adjust brightness")
+		ShowTogglePopup("FFB020", "🔆", "Brightness Mode", "Volume keys adjust brightness", false)
 	else
-		ShowTogglePopup("3B9EFF", "🔊", "Volume Mode", "Volume keys control volume")
+		ShowTogglePopup("3B9EFF", "🔊", "Volume Mode", "Volume keys control volume", false)
 }
 
-ShowTogglePopup(accentColor, icon, title, subtitle)
+ShowTogglePopup(accentColor, icon, title, subtitle, hasClose)
 {
 	popUpWidth := 320
 	popUpHeight := 90
@@ -57,6 +58,14 @@ ShowTogglePopup(accentColor, icon, title, subtitle)
 	togglePopup.SetFont("s18", "Segoe UI Emoji")
 	togglePopup.Add("Text", Format("x18 y{} w{} h{} Center 0x200 c{} Background202020", (popUpHeight - iconSize) // 2, iconSize, iconSize, accentColor), icon)
 
+	if (hasClose)
+	{
+		closeSize := 20
+		togglePopup.SetFont("cAAAAAA s10 Bold", "Segoe UI")
+		closeCtrl := togglePopup.Add("Text", Format("x{} y{} w{} h{} Center 0x200 Background202020", popUpWidth - borderWidth - closeSize - 6, borderWidth + 6, closeSize, closeSize), "×")
+		closeCtrl.OnEvent("Click", ClosePopup)
+	}
+
 	MonitorGetWorkArea(, &Left, &Top, &Right, &Bottom)
 
 	xPos := Right - popUpWidth - 20
@@ -66,11 +75,18 @@ ShowTogglePopup(accentColor, icon, title, subtitle)
 	WinSetRegion(Format("0-0 w{} h{} R{}-{}", popUpWidth, popUpHeight, cornerRadius, cornerRadius), togglePopup)
 	WinSetRegion(Format("0-0 w{} h{} R{}-{}", panelWidth, panelHeight, innerRadius, innerRadius), "ahk_id " panelCtrl.Hwnd)
 
-	Sleep(2000)
-	togglePopup.Destroy()
+
+	if(!hasClose) 
+		SetTimer(ClosePopup, -2000)
+
+	ClosePopup(*)
+	{
+		SetTimer(ClosePopup, 0)
+		togglePopup.Destroy()
+	}
 }
 
-#HotIf toggleMode
+#HotIf toggleMode && !WinActive("ahk_exe FortniteClient-Win64-Shipping.exe")
 
 Volume_Up::
 {
