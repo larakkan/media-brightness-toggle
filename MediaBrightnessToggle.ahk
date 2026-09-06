@@ -5,12 +5,20 @@ SetTimer(CheckFortniteRunning, 2000)
 CheckFortniteRunning()
 {
 	global toggleMode
-	if (toggleMode && ProcessExist("FortniteClient-Win64-Shipping.exe"))
+	static warned := false
+
+	if (ProcessExist("FortniteClient-Win64-Shipping_EAC_EOS.exe") || ProcessExist("FortniteClient-Win64-Shipping.exe"))
 	{
-		toggleMode := false
-		SoundPlay("*48")
-		ShowTogglePopup("ff3b3b", "⚠️", "Fortnite Detected", "Toggle has been disabled. Please turn off AHK for maximum safety.", true)
+		if (!warned)
+		{
+			warned := true
+			toggleMode := false
+			SoundPlay("*48")
+			ShowTogglePopup("ff3b3b", "⚠️", "Fortnite Detected", "Toggle has been disabled. Please turn off AHK for maximum safety.", true)
+		}
 	}
+	else
+		warned := false
 }
 
 Media_Play_Pause::
