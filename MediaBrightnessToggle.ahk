@@ -1,5 +1,17 @@
 ﻿toggleMode := false
 
+SetTimer(CheckFortniteRunning, 2000)
+
+CheckFortniteRunning()
+{
+	global toggleMode
+	if (toggleMode && ProcessExist("FortniteClient-Win64-Shipping.exe"))
+	{
+		toggleMode := false
+		ShowTogglePopup("3B9EFF", "🔊", "Volume Mode", "Fortnite detected - toggle disabled")
+	}
+}
+
 Media_Play_Pause::
 {
     global toggleMode := !toggleMode
