@@ -4,11 +4,11 @@ An [AutoHotkey](https://www.autohotkey.com/) (v2) script that turns your keyboar
 
 ## How it works
 
-- Press **Media Play/Pause** to switch betweeen two modes:
+- Press **Media Play/Pause** to switch between two modes:
     - **Volume Mode** (default): Normal Volume Up/Down behavior
-    - **Brightness Mode**: Volume Up/Down raise or lower your display brightness in steps of 10% instead of thanging the volume
-- A small popup will appear on thee bottom-right corner of your screen each time you switch between modes, showing which mode is now active.
-- Brightness mode automatically turns itself off while Fortnite is detected as running, since global hotkeys and third-party hooks can trip anti-cheat software. A warning popup with a sound is also shown wheen this happens.
+    - **Brightness Mode**: Volume Up/Down raise or lower your display brightness in steps of 10% instead of changing the volume
+- A small popup will appear on the bottom-right corner of your screen each time you switch between modes, showing which mode is now active.
+- Brightness mode automatically turns itself off while Fortnite is detected as running, since global hotkeys and third-party hooks can trip anti-cheat software. A warning popup with a sound is also shown when this happens.
 
 ## Requirements
 
@@ -23,7 +23,7 @@ An [AutoHotkey](https://www.autohotkey.com/) (v2) script that turns your keyboar
 
 ### Run on startup (optional)
 
-To have the toggla available automatically:
+To have the toggle available automatically:
 
 1. Press `Win + R`, type `shell:startup`, and press Enter.
 2. Copy `MediaBrightnessToggle.ahk` (or a shortcut to it) into the folder that opens.
