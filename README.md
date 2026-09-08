@@ -8,7 +8,7 @@ An [AutoHotkey](https://www.autohotkey.com/) (v2) script that turns your keyboar
     - **Volume Mode** (default): Normal Volume Up/Down behavior
     - **Brightness Mode**: Volume Up/Down raise or lower your display brightness in steps of 10% instead of changing the volume
 - A small popup will appear on the bottom-right corner of your screen each time you switch between modes, showing which mode is now active.
-- Brightness mode automatically turns itself off while Fortnite is detected as running, since global hotkeys and third-party hooks can trip anti-cheat software. A warning popup with a sound is also shown when this happens.
+- Brightness mode automatically turns itself off while a blacklisted process (Fortnite by default) is detected running, since global hotkeys and third-party hooks can trip anti-cheat software. A warning popup with a sound is also shown when this happens.
 
 ## Requirements
 
@@ -38,9 +38,9 @@ To have the toggle available automatically:
  
 The current mode is always shown in a temporary popup notification whenever you switch, so you never have to guess which mode you're in.
  
-## Fortnite safety check
+## Anti-cheat safety check
  
-The script polls running processes every 2 seconds. If it detects `FortniteClient-Win64-Shipping.exe` (or its EAC/EOS variant), it automatically disables Brightness Mode and shows a persistent warning popup recommending you close AutoHotkey entirely while playing. This is a precaution — use anti-cheat-sensitive software at your own risk, and consider quitting AutoHotkey before launching any game with kernel-level anti-cheat.
+The script polls running processes every 2 seconds against the list in `blacklist.txt`. If a listed process is detected, it automatically disables Brightness Mode and shows a persistent warning popup with a sound, recommending you close AutoHotkey entirely, since global hotkeys and third-party hooks can trip anti-cheat software. As an extra layer, Volume Up/Down are also ignored whenever a blacklisted process's window is focused. Add or remove process names (one per line) in `blacklist.txt` to cover other anti-cheat-sensitive games. This is a precaution — use anti-cheat-sensitive software at your own risk, and consider quitting AutoHotkey before launching any game with kernel-level anti-cheat.
  
 ## Customization
  
@@ -48,7 +48,8 @@ Open `MediaBrightnessToggle.ahk` in a text editor to tweak:
  
 - **Brightness step size** — change the `+ 10` / `- 10` values in the `Volume_Up` / `Volume_Down` hotkeys.
 - **Popup colors, icons, and duration** — edit the arguments passed to `ShowTogglePopup()` or the `SetTimer(ClosePopup, -2000)` line (in milliseconds).
-- **Process check interval** — change the `2000` (ms) value in `SetTimer(CheckFortniteRunning, 2000)`.
+- **Process check interval** — change the `2000` (ms) value in `SetTimer(CheckBlacklist, 2000)`.
+- **Blacklisted processes** — add or remove executable names (one per line) in `blacklist.txt`.
 
 ## License
  

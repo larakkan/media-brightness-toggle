@@ -1,24 +1,30 @@
 ﻿toggleMode := false
+blacklistFile := FileRead(".\blacklist.txt")
+blacklist := StrSplit(blacklistFile, "`n")
 
-SetTimer(CheckFortniteRunning, 2000)
+SetTimer(CheckBlacklist, 2000)
 
-CheckFortniteRunning()
+CheckBlacklist()
 {
+	global blacklist
 	global toggleMode
 	static warned := false
 
-	if (ProcessExist("FortniteClient-Win64-Shipping_EAC_EOS.exe") || ProcessExist("FortniteClient-Win64-Shipping.exe"))
+	for process in blacklist
 	{
-		if (!warned)
+		if (ProcessExist(process))
 		{
-			warned := true
-			toggleMode := false
-			SoundPlay("*48")
-			ShowTogglePopup("ff3b3b", "⚠️", "Fortnite Detected", "Toggle has been disabled. Please turn off AHK for maximum safety.", true)
+			if (!warned)
+			{
+				warned := true
+				toggleMode := false
+				SoundPlay("*48")
+				ShowTogglePopup("ff3b3b", "⚠️", "Fortnite Detected", "Toggle has been disabled. Please turn off AHK for maximum safety.", true)
+			}
 		}
+		else
+			warned := false
 	}
-	else
-		warned := false
 }
 
 Media_Play_Pause::
@@ -94,7 +100,16 @@ ShowTogglePopup(accentColor, icon, title, subtitle, hasClose)
 	}
 }
 
-#HotIf toggleMode && !WinActive("ahk_exe FortniteClient-Win64-Shipping.exe")
+IsBlacklistedActive()
+{
+	global blacklist
+	for process in blacklist
+		if WinActive("ahk_exe " process)
+			return true
+	return false
+}
+
+#HotIf toggleMode && !IsBlacklistedActive()
 
 Volume_Up::
 {
