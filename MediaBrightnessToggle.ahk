@@ -1,4 +1,4 @@
-﻿toggleMode := false
+toggleMode := false
 blacklistFile := FileRead(".\blacklist.txt")
 blacklist := StrSplit(blacklistFile, "`n")
 
@@ -19,7 +19,7 @@ CheckBlacklist()
 				warned := true
 				toggleMode := false
 				SoundPlay("*48")
-				ShowTogglePopup("ff3b3b", "⚠️", "Fortnite Detected", "Toggle has been disabled. Please turn off AHK for maximum safety.", true)
+				ShowTogglePopup("ff3b3b", "⚠️", "Blacklisted Proccess Detected", "Toggle has been disabled. Please turn off AHK for maximum safety.", true)
 			}
 		}
 		else
