@@ -19,7 +19,7 @@ CheckBlacklist()
 				warned := true
 				toggleMode := false
 				SoundPlay("*48")
-				ShowTogglePopup("ff3b3b", "⚠️", "Blacklisted Proccess Detected", "Toggle has been disabled. Please turn off AHK for maximum safety.", true)
+				ShowTogglePopup("ff3b3b", "⚠️", "Blacklisted Proccess Detected", "Toggle has been disabled. Please turn off AHK for maximum safety.", true, 1.15)
 			}
 		}
 		else
@@ -32,15 +32,15 @@ Media_Play_Pause::
     global toggleMode := !toggleMode
 
 	if (toggleMode)
-		ShowTogglePopup("FFB020", "🔆", "Brightness Mode", "Volume keys adjust brightness", false)
+		ShowTogglePopup("FFB020", "🔆", "Brightness Mode", "Volume keys adjust brightness", false, 1)
 	else
-		ShowTogglePopup("3B9EFF", "🔊", "Volume Mode", "Volume keys control volume", false)
+		ShowTogglePopup("3B9EFF", "🔊", "Volume Mode", "Volume keys control volume", false, 1)
 }
 
-ShowTogglePopup(accentColor, icon, title, subtitle, hasClose)
+ShowTogglePopup(accentColor, icon, title, subtitle, hasClose, scale)
 {
-	popUpWidth := 320
-	popUpHeight := 90
+	popUpWidth := Floor(320 * scale)
+	popUpHeight := Floor(90 * scale)
 
 	borderWidth := 3
 	cornerRadius := 16
